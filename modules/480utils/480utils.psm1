@@ -28,4 +28,27 @@ Function Get-480Config([string] $config_path)
     {
         Write-Host -ForegroundColor Yellow "No Configuration"
     }
+    return $conf 
+}
+Function Select-VM([string] $folder)
+{
+    $selected_vm = $null
+    try
+    {
+        $vms = Get-VM -Location $folder
+        $index = 1
+        foreach($vm in $vms)
+        {
+            Write-Host [$index] $vm.name
+            $index += 1
+        }
+        $pick_index = Read-Host 'Which index number [x] do you wish to pick?'
+        $selected_vm = $vms[$pick_index -1]
+        Read-Host "You selected " $selected_vm.name
+        Return $selected_vm
+    }
+    catch
+    {
+        Write-Host "Invalid Folder: $folder" -ForegroundColor "Red"
+    }
 }
