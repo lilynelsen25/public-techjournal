@@ -1,8 +1,8 @@
-function 480Banner()
+function Show-Banner-480()
 {
     Write-Host "480Utils"
 }
-Function 480Connect([string] $server)
+Function Connect-480([string] $server)
 {
     $conn = $global:DefaultVIServer
     
