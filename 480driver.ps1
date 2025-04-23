@@ -1,4 +1,4 @@
-$env:PSModulePath = $env:PSModulePath + ":/home/lily/Downloads/public-techjournal/modules/480utils"
+$env:PSModulePath = $env:PSModulePath + ":/home/lily/Downloads/public-techjournal/modules/480utils/"
 Import-Module '480utils' -Force
 
 480Banner
