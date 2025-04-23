@@ -1,3 +1,6 @@
 {
-    "vcenter_server" : "vcenter.lily.local"
+    "vcenter_server" : "vcenter.lily.local",
+    "vm_folder" : "BaseVM",
+    "esxi_host" : "192.168.3.232",
+    "default_network" : "480-WAN"
 }

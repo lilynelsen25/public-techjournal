@@ -1,6 +1,6 @@
 function 480Banner()
 {
-    Write-Host "Hello World"
+    Write-Host "480Utils"
 }
 Function 480Connect([string] $server)
 {
@@ -50,5 +50,49 @@ Function Select-VM([string] $folder)
     catch
     {
         Write-Host "Invalid Folder: $folder" -ForegroundColor "Red"
+    }
+}
+
+Function FullClone($vm, $vmi, $snapshot, $vmhost, $ds, $Name)
+{
+    $vm = $vm
+    $linkedname = "{0}.linked" -f $vm.Name
+
+    # Creating linked clone.
+    $linkedvm = New-VM -LinkedClone -Name $linkedname -VM $vm -ReferenceSnapshot $snapshot -VMHost $vmhost -Datastore $ds
+
+    #Creating full clone.
+    try
+    {
+        New-VM -Name $Name -VM $linkedvm -VMHost $vm -Datastore $ds -ErrorAction Stop
+        Write-Host "New VM Created"
+    }
+    catch {
+        Write-Host "Failed to Create VM" -ForegroundColor Red
+        FullClone
+    }
+    $del =  Read-Host "Would you like to delete the temporary clone $linkedvm? [Y]/[N]"
+    if ($del -eq "Y") {
+        try {
+            Remove-VM -VM $linkedvm -ErrorAction Stop
+            Write-Host "Temp Clone Deleted"
+        }
+        catch {
+            Write-Host "Could Not Delete Clone. You can do so manually in vCenter." -ForegroundColor Red
+        }
+    }
+    else {
+        Write-Host "It is advised to delete the temp clone manually in vCenter."
+    }
+}
+
+function LinkedClone ($vm, $snapshot, $vmhost, $ds, $Name)
+{
+    try {
+        New-VM -LinkedClone -Name $Name -VM $vm -ReferenceSnapshot $snapshot -VMHost $vmhost -Datastore $ds -ErrorAction Stop
+        Write-Host "Linked clone created."
+    }
+    catch {
+        Write-Host "Could not create linked clone." -ForegroundColor Red 
     }
 }
