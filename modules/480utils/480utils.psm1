@@ -15,20 +15,13 @@ Function Connect-480([string] $server)
         $conn = Connect-VIServer -server $server
     }
 }
-Function Get-480Config([string] $config_path)
+Function Get-480Config()
 {
-    Write-Host "hi"
-    $conf = $null
-    if(Test-Path $config_path)
-    {
-        $conf = (Get-Content -Raw -Path $config_path | ConvertFrom-Json)
-        $msg = "Using Configuration at {0}" -f $config_path
-        Write-Host -ForegroundColor Green $msg
-    }else
-    {
-        Write-Host -ForegroundColor Yellow "No Configuration"
-    }
-    return $conf 
+    $480_config_path = "/home/lily/Downloads/public-techjournal/modules/480.json"
+    $conch = (Get-Content -Raw -Path $480_config_path | ConvertFrom-Json)
+    $msg = "Using Configuration at {0}" -f $480_config_path
+    Write-Host -ForegroundColor Green $msg
+    return $conch
 }
 Function Select-VM([string] $folder)
 {
@@ -95,4 +88,11 @@ function LinkedClone ($vm, $snapshot, $vmhost, $ds, $Name)
     catch {
         Write-Host "Could not create linked clone." -ForegroundColor Red 
     }
+}
+
+Function New-Network($portgroup, $switch)
+{
+    New-VirtualSwitch 
+    New-VirtualPortGroup
+    Get-VirtualSwitch
 }
