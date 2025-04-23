@@ -17,7 +17,7 @@ Function 480Connect([string] $server)
 }
 Function Get-480Config([string] $config_path)
 {
-    Write-Host "Reading" + $config_path
+    Write-Host "hi"
     $conf = $null
     if(Test-Path $config_path)
     {
